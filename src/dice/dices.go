@@ -4,6 +4,11 @@ import (
 	"math/rand"
 )
 
+/*
+rand.Intn(number) returns a value between [0, number]
+with extremes included
+*/
+
 func D4() int {
 	return rand.Intn(3) + 1
 }

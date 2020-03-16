@@ -1,10 +1,10 @@
 package character
 
 type Character struct {
-	player                string
-	name                  string
-	classes               []Class
-	abilities             Abilities
-	hitpoints, armorclass int
-	inventory             []string
+	PlayerID              string
+	Name                  string
+	Classes               []Class
+	Abilities             Abilities
+	Hitpoints, Armorclass int
+	Inventory             []string
 }

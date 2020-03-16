@@ -9,7 +9,7 @@ func Ping(s *discordgo.Session, m *discordgo.MessageCreate) {
 		return
 	}
 
-	if m.Content == "ping" {
-		_, _ = s.ChannelMessageSend(m.ChannelID, "pong"+m.ChannelID)
+	if m.Content == BotPrefix+"ping" {
+		_, _ = s.ChannelMessageSend(ChannelID, "pong"+m.ChannelID)
 	}
 }

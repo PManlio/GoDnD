@@ -6,12 +6,6 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-// get this from environment.yaml
-//const token string = "Njg4NDMyMDUyMjY5MjE5OTMw.Xm0PaQ.fm_Is5nrNRCIYl3PBl5BZG6fMVo"
-const token string = "Njg4NDMyMDUyMjY5MjE5OTMw.Xm1_rQ.Dhi2CMjah1x0gGLf33EI7q7ISpc"
-
-var BotID string
-
 func Connect() {
 	dg, err := discordgo.New("Bot " + token)
 
@@ -31,6 +25,7 @@ func Connect() {
 	// important: add handler functions before .Open()
 	// dg.AddHandler(messageHandler)
 	dg.AddHandler(Ping)
+	dg.AddHandler(CreationCommand)
 
 	err = dg.Open()
 	if err != nil {

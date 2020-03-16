@@ -1,6 +1,6 @@
 package character
 
 type Class struct {
-	className string
-	level     int
+	ClassName string
+	Level     int
 }

@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-var player = character.Character{}
+var player = new(character.Character)
 
 func CreationCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == BotID {
@@ -22,6 +22,7 @@ func CreationCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 		// save AuthorID as playerID
 		player.PlayerID = m.Author.ID
+		player.PlayerName = m.Author.Username
 
 		s.AddHandler(setName)
 
@@ -31,7 +32,8 @@ func CreationCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 func setName(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID != player.PlayerID {
-		return
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(setName)
 	}
 	player.Name = m.Content
 	fmt.Println(player)

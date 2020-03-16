@@ -35,13 +35,51 @@ func setName(s *discordgo.Session, m *discordgo.MessageCreate) {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
 		s.AddHandler(setName)
 	}
-	player.Name = m.Content
+	player.CharName = m.Content
+	_, _ = s.ChannelMessageSend(ChannelID, "Good, now write your class")
+	s.AddHandler(setClass)
 	fmt.Println(player)
 }
 
-func setClass(s *discordgo.Session, m *discordgo.MessageCreate)      {}
-func setAbilities(s *discordgo.Session, m *discordgo.MessageCreate)  {}
-func setHitpoints(s *discordgo.Session, m *discordgo.MessageCreate)  {}
-func setArmorClass(s *discordgo.Session, m *discordgo.MessageCreate) {}
-func setInventory(s *discordgo.Session, m *discordgo.MessageCreate)  {}
-func saveChar(s *discordgo.Session, m *discordgo.MessageCreate)      {}
+func setClass(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID != player.PlayerID {
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(setName)
+	}
+}
+func setAbilities(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID != player.PlayerID {
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(setAbilities)
+	}
+}
+func setCompetence(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID != player.PlayerID {
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(setCompetence)
+	}
+}
+func setHitpoints(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID != player.PlayerID {
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(setHitpoints)
+	}
+}
+func setArmorClass(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID != player.PlayerID {
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(setArmorClass)
+	}
+}
+func setInventory(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID != player.PlayerID {
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(setInventory)
+	}
+}
+func saveChar(s *discordgo.Session, m *discordgo.MessageCreate) {
+	if m.Author.ID != player.PlayerID {
+		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+" wait, it's not your turn!\nPlease wait until "+player.PlayerName+" ends its character creation")
+		s.AddHandler(saveChar)
+	}
+}

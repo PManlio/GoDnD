@@ -60,7 +60,7 @@ func setClass(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// here we take in input whatever the duck player insert the duo {class level}
 	var newClass character.Class
-	newClass.ClassName, newClass.Level = utils.ChatParser(m.Content)
+	newClass.ClassName, newClass.Level = utils.ChatClassParser(m.Content)
 
 	player.Classes = append(player.Classes, newClass)
 
@@ -81,7 +81,19 @@ func setAbilities(s *discordgo.Session, m *discordgo.MessageCreate) {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
 		s.AddHandler(setAbilities)
 	}
+
+	var ability character.Abilities
+	var errmsg string
+	ability.Stre, ability.Dext, ability.Cons, ability.Inte, ability.Wisd, ability.Char, errmsg = utils.ChatAbilitiesParser(m.Content)
+
+	if errmsg != "" {
+		_, _ = s.ChannelMessageSend(ChannelID, errmsg+"\nPlease try again.")
+		s.AddHandler(setAbilities)
+	}
+	player.Abilities = ability
+	fmt.Println(player) // SONO ARRIVATO QUI, PROVAMI
 }
+
 func setCompetence(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == BotID {
 		return

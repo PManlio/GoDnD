@@ -5,8 +5,8 @@ type Character struct {
 	PlayerName            string
 	CharName              string
 	Classes               []Class
-	Abilities             Abilities
+	Ability               Abilities
 	Competence            int
-	Hitpoints, Armorclass int
+	Hitpoints, ArmorClass int
 	Inventory             []string
 }

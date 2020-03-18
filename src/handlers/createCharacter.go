@@ -92,6 +92,9 @@ func setAbilities(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 	player.Abilities = ability
 	fmt.Println(player) // SONO ARRIVATO QUI, PROVAMI
+	_, _ = s.ChannelMessageSend(ChannelID, `We're almost done. Please set your Bonus Competence:
+	Example: 1 (or 2 or 3... it has to be only a number)`)
+	s.AddHandler(setCompetence)
 }
 
 func setCompetence(s *discordgo.Session, m *discordgo.MessageCreate) {

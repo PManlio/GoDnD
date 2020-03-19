@@ -184,6 +184,6 @@ func saveChar(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == BotID {
 		return
 	}
-
+	utils.SaveToJsonFile(player)
 	s.Close()
 }

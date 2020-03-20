@@ -20,7 +20,8 @@ func CreationCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	if m.Content == (BotPrefix + "create") {
-		_, _ = s.ChannelMessageSend(ChannelID, "Ok, let's create a new character! \nFirst of all, insert your Character name:")
+		_, _ = s.ChannelMessageSend(ChannelID, `Ok, let's create a new character!
+		First of all, insert your Character name:`)
 
 		// save AuthorID as playerID
 		player.PlayerID = m.Author.ID
@@ -39,11 +40,13 @@ func setName(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Author.ID != player.PlayerID {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
-		s.AddHandler(setName)
+		s.AddHandlerOnce(setName)
+		return
 	}
 
 	player.CharName = m.Content
-	_, _ = s.ChannelMessageSend(ChannelID, "Good, now write your class")
+	_, _ = s.ChannelMessageSend(ChannelID, `Good, now write your class and level
+	Like: Warrior, 5`)
 	s.AddHandlerOnce(setClass)
 
 	fmt.Println(player)
@@ -56,7 +59,8 @@ func setClass(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Author.ID != player.PlayerID {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
-		s.AddHandler(setClass)
+		s.AddHandlerOnce(setClass)
+		return
 	}
 
 	// here we take in input whatever the duck player insert the duo {class level}
@@ -80,7 +84,8 @@ func setAbilities(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Author.ID != player.PlayerID {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
-		s.AddHandler(setAbilities)
+		s.AddHandlerOnce(setAbilities)
+		return
 	}
 
 	var ability character.Abilities
@@ -89,7 +94,8 @@ func setAbilities(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if errmsg != "" {
 		_, _ = s.ChannelMessageSend(ChannelID, errmsg+"\nPlease try again.")
-		s.AddHandler(setAbilities)
+		s.AddHandlerOnce(setAbilities)
+		return
 	}
 	player.Ability = ability
 	fmt.Println(player)
@@ -106,7 +112,8 @@ func setCompetence(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Author.ID != player.PlayerID {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
-		s.AddHandler(setCompetence)
+		s.AddHandlerOnce(setCompetence)
+		return
 	}
 
 	player.Competence = utils.ChatGetNumber(m.Content)
@@ -125,7 +132,8 @@ func setHitpoints(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Author.ID != player.PlayerID {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
-		s.AddHandler(setHitpoints)
+		s.AddHandlerOnce(setHitpoints)
+		return
 	}
 
 	player.Hitpoints = utils.ChatGetNumber(m.Content)
@@ -144,7 +152,8 @@ func setArmorClass(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Author.ID != player.PlayerID {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
-		s.AddHandler(setArmorClass)
+		s.AddHandlerOnce(setArmorClass)
+		return
 	}
 
 	player.ArmorClass = utils.ChatGetNumber(m.Content)
@@ -164,26 +173,27 @@ func setInventory(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	if m.Author.ID != player.PlayerID {
 		_, _ = s.ChannelMessageSend(ChannelID, m.Author.Username+warningString)
-		s.AddHandler(setInventory)
+		s.AddHandlerOnce(setInventory)
+		return
 	}
 
 	if m.Content == (BotPrefix + "empty") {
-		_, _ = s.ChannelMessageSend(ChannelID, `Character saved!`)
-		s.AddHandlerOnce(saveChar)
+		_, _ = s.ChannelMessageSend(ChannelID, `Character saved, have fun!`)
+		saveChar()
 		fmt.Println(player)
 		return
 	}
 
 	player.Inventory = utils.ChatGetInventory(m.Content)
-	_, _ = s.ChannelMessageSend(ChannelID, `Character saved!`)
-	s.AddHandlerOnce(saveChar)
+	_, _ = s.ChannelMessageSend(ChannelID, `Character saved, have fun!`)
+
+	saveChar()
+
+	fmt.Println(player)
+	player = nil
 	fmt.Println(player)
 }
 
-func saveChar(s *discordgo.Session, m *discordgo.MessageCreate) {
-	if m.Author.ID == BotID {
-		return
-	}
-	utils.SaveToJsonFile(player)
-	s.Close()
+func saveChar() {
+	utils.SaveToJsonFile(player, player.PlayerID)
 }

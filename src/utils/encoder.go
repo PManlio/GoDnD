@@ -8,7 +8,8 @@ import (
 	"../character"
 )
 
-const charDir string = "/home/manlio/Scrivania"
+// TODO: get CharDir from environment.yaml
+const CharDir string = "/home/manlio/Scrivania"
 
 func SaveToJsonFile(chara *character.Character, playerId string) {
 	// when we try to convert a file in Json, it is actually
@@ -20,5 +21,5 @@ func SaveToJsonFile(chara *character.Character, playerId string) {
 	}
 	fmt.Println(string(byteArray))
 
-	ioutil.WriteFile(charDir+"/"+playerId+".json", byteArray, 0644)
+	ioutil.WriteFile(CharDir+"/"+playerId+".json", byteArray, 0644)
 }

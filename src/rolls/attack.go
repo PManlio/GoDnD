@@ -1,5 +1,9 @@
 package rolls
 
+import (
+	"math/rand"
+)
+
 func AttackRoll() int {
-	return 1
+	return (rand.Intn(20) + 1)
 }

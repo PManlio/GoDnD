@@ -1,7 +1,6 @@
 package rolls
 
 import (
-	"math/rand"
 	"strings"
 
 	"../dice"
@@ -9,28 +8,29 @@ import (
 
 func DamageRoll(n int, die string) int {
 	die = strings.ToLower(die)
-	var result int
+	var result int = 0
 	var dicetype int
 
-	for i := 0; i < n; i++ {
-		switch die {
-		case "d4":
-			dicetype = dice.D4()
-		case "d6":
-			dicetype = dice.D6()
-		case "d8":
-			dicetype = dice.D8()
-		case "d10":
-			dicetype = dice.D10()
-		case "d12":
-			dicetype = dice.D12()
-		case "d20":
-			dicetype = dice.D20()
-		case "d100":
-			dicetype = dice.D100()
-		}
-		result = result + dicetype
+	switch die {
+	case "d4":
+		dicetype = 4
+	case "d6":
+		dicetype = 6
+	case "d8":
+		dicetype = 8
+	case "d10":
+		dicetype = 10
+	case "d12":
+		dicetype = 12
+	case "d20":
+		dicetype = 20
+	case "d100":
+		dicetype = 100
 	}
 
-	return (rand.Intn(20) + 1)
+	for i := 0; i < n; i++ {
+		result = result + dice.D(dicetype)
+	}
+
+	return result
 }

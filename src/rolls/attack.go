@@ -1,9 +1,9 @@
 package rolls
 
 import (
-	"math/rand"
+	"../dice"
 )
 
 func AttackRoll() int {
-	return (rand.Intn(20) + 1)
+	return (dice.D(20))
 }

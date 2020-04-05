@@ -188,12 +188,14 @@ func setInventory(s *discordgo.Session, m *discordgo.MessageCreate) {
 	_, _ = s.ChannelMessageSend(ChannelID, `Character saved, have fun!`)
 
 	saveChar()
-
-	fmt.Println(player)
-	player = nil
-	fmt.Println(player)
 }
 
 func saveChar() {
 	utils.SaveToJsonFile(player, player.PlayerID)
+	resetPlayer()
+}
+
+func resetPlayer() {
+	player = new(character.Character)
+	fmt.Println(player)
 }
